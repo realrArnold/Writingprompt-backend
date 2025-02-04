@@ -14,19 +14,19 @@ const writings= require("./writingsController")
 // router.delete("/prompts", prompts.deleteAllPrompts);  
 
 
-// router.get("/writings", writings.getAllWritings);
-// router.get("/writings/:id", writings.getWritingById);
-// router.get("/writings/byGenre/:genre", writings.getWritingByGenre);
-// router.get("/writings/byDateWritten/:dateWritten", writings.getWritingByDateWritten);
-// router.post("/writings/add", writings.addWriting);
-// router.put("/writings/:id", writings.updateWriting);
-// router.delete("/writings/:id", writings.deleteWriting);
-// router.delete("/writings", writings.deleteAllWritings);  
-// router.delete("/writings/byDateWritten/:dateWritten", writings.deleteWritingByDateWritten); 
+router.get("/writings", writings.getAllWritings);
+router.get("/writings/:id", writings.getWritingById);
+router.get("/writings/byGenre/:genre", writings.getWritingByGenre);
+router.get("/writings/byDateWritten/:date", writings.getWritingByDateWritten);
+router.post("/writings/add", writings.addWriting);
+router.put("/writings/:id", writings.updateWriting);
+router.delete("/writings/:id", writings.deleteWriting);
+router.delete("/writings", writings.deleteAllWritings);  
 
-router.get("/test", (req, res) => {
-    res.send("Router is working!");
-  });
+
+// router.get("/test", (req, res) => {
+//     res.send("Router is working!");
+//   });
   
 
 module.exports = router;
