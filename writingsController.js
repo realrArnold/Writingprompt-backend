@@ -52,14 +52,18 @@ exports.getWritingByDateWritten = async (req, res, next) => {
 
 exports.addWriting = async (req, res, next) => {
   try {
-    const { title, words, date, genre } = req.body;
+    const { title, words, date, genre, review, prompt } = req.body;
     const newWriting = await Writing.create({
       title,
       words,
       date,
       genre,
+      review,
+      prompt,
     });
-    res.send(newWriting);
+    res.status(200).json({
+      message: "Writing successfully added!",
+      newWriting,});
   } catch (error) {
     next(createError(500, error.message));
   }
@@ -67,7 +71,7 @@ exports.addWriting = async (req, res, next) => {
 
 exports.updateWriting = async (req, res, next) => {
   try {
-    const { title, words, date, genre } = req.body;
+    const { title, words, genre, } = req.body;
     const id = req.params.id;
     const writing = await Writing.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -76,7 +80,9 @@ exports.updateWriting = async (req, res, next) => {
     });
 
     if (writing) {
-      console.log("Update successful!");
+      res.status(200).json({
+        message: "Writing successfully updated!",
+        writing,});
     } else {
       console.error("Validation Error: No writing with that id");
     }

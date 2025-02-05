@@ -12,16 +12,24 @@ const userSchema = new mongoose.Schema({
     token: {
         type: String
     },
-    //how do we link writings database collection to this?
-    writingsLibrary: {
-        type: String, 
-        default: ""
+    //on submit needs to add one to this
+    writingsAmount: {
+        type: Number, 
+        default: 0
     },
-    //days written in a row or number of writings completed/prompts answered
-    // activity: {
-    //     type: Number, 
-    //     default: 0
+    //on submit needs to add one to this
+    reviewsAmount: {
+        type: Number, 
+        default: 0
+    },
+    
+
+    // //how do we link writings database collection to this?
+    // writingsLibrary: {
+    //     type: String, 
+    //     default: ""
     // },
+  
 })
 
 module.exports = mongoose.model("User", userSchema);
