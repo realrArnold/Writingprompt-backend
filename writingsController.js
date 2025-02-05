@@ -18,7 +18,7 @@ exports.getWritingById = async (req, res, next) => {
     if (!writing) {
       return next(createError(404, "no writing with that id"));
     }
-    res.send(book);
+    res.send(writing);
   } catch (error) {
     next(createError(500, error.message));
   }
@@ -26,12 +26,12 @@ exports.getWritingById = async (req, res, next) => {
 
 exports.getWritingByGenre = async (req, res, next) => {
   try {
-    const writing = await Writing.findByID(req.params.genre);
+    const writing = await Writing.find({ genre: req.params.genre });
 
-    if (!writing) {
+    if (!req.params.genre) {
       return next(createError(404, "no writing with that genre"));
     }
-    res.send(book);
+    res.send(writing);
   } catch (error) {
     next(createError(500, error.message));
   }
@@ -44,7 +44,7 @@ exports.getWritingByDateWritten = async (req, res, next) => {
     if (!writing) {
       return next(createError(404, "nothing written on that date"));
     }
-    res.send(book);
+    res.send(writing);
   } catch (error) {
     next(createError(500, error.message));
   }
