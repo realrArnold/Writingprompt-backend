@@ -8,7 +8,7 @@ const writingSchema = new mongoose.Schema({
     //on submit needs to pass the text from the writing text area
     words: {
       type: String,
-      required: [true, "Please write your response to the prompt here."],
+      required: [true, "Please write your response to the prompt."],
     },
     //on submit needs to pass the prompt text
     prompt: {
@@ -27,6 +27,10 @@ const writingSchema = new mongoose.Schema({
       // ISO format avoids slashes in string, which can cause issues with database queries.
       // split to take out time and time zone part of ISO string
       default: new Date().toISOString().split('T')[0],
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // References the User model
     },
     //Ranking based on number of likes here? Or should we have a separate ranking system?
     // ranking: {

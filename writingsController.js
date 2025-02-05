@@ -1,11 +1,12 @@
 const createError = require("http-errors");
 const Writing = require("./schemas/Writing");
+const User = require("./schemas/User");
 
 exports.getAllWritings = async (req, res) => {
   try {
     //.find allows us to return all items in the collection
     //returns all items and puts them in an array
-    const writings = await Writing.find();
+    const writings = await Writing.find().populate("user");
     //checks length of array to see if there are any writings. if not, returns a message.
     if (writings.length === 0) {
       return res.status(404).json({ message: "no writings yet" });
@@ -19,7 +20,7 @@ exports.getAllWritings = async (req, res) => {
 exports.getWritingById = async (req, res, next) => {
   try {
     //finds one document by its id and returns it (no array)
-    const writing = await Writing.findById(req.params.id);
+    const writing = await Writing.findById(req.params.id).populate("user");
 
     if (!writing) {
       return res.status(404).json({ message: "no writing with that id" });
@@ -33,7 +34,7 @@ exports.getWritingById = async (req, res, next) => {
 exports.getWritingByGenre = async (req, res, next) => {
   try {
     //finds all documents with the given genre and returns them in an array
-    const writing = await Writing.find({ genre: req.params.genre });
+    const writing = await Writing.find({ genre: req.params.genre }).populate("user");
 
     // If no writings are found for the given genre
     if (writing.length === 0) {
@@ -51,7 +52,7 @@ exports.getWritingByGenre = async (req, res, next) => {
 exports.getWritingByDateWritten = async (req, res, next) => {
   try {
     //finds all documents with the given date and returns them in an array
-    const writing = await Writing.find({ date: req.params.date });
+    const writing = await Writing.find({ date: req.params.date }).populate("user");
 
     // Check if the result array is empty
     if (writing.length === 0) {
@@ -66,7 +67,13 @@ exports.getWritingByDateWritten = async (req, res, next) => {
 
 exports.addWriting = async (req, res, next) => {
   try {
-    const { title, words, date, genre, review, prompt } = req.body;
+    const { title, words, date, genre, review, prompt, userID } = req.body;
+    //find the user by the id passed in the request
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    //create a new writing with the data passed in the request
     const newWriting = await Writing.create({
       title,
       words,
@@ -74,7 +81,11 @@ exports.addWriting = async (req, res, next) => {
       genre,
       review,
       prompt,
+      user: userID, //associate the writing with the user
     });
+     // Add the writing's ID to the user's writings array
+     user.writings.push(newWriting._id);
+     await user.save();
     res.status(200).json({
       message: "Writing successfully added!",
       newWriting,
@@ -86,7 +97,7 @@ exports.addWriting = async (req, res, next) => {
 
 exports.updateWriting = async (req, res, next) => {
   try {
-    const { title, words, genre } = req.body;
+    const { title, words, genre, } = req.body;
     const id = req.params.id;
     const writing = await Writing.findByIdAndUpdate(id, req.body, {
       new: true,

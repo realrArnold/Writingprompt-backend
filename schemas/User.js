@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String, 
@@ -12,24 +13,14 @@ const userSchema = new mongoose.Schema({
     token: {
         type: String
     },
-    //on submit needs to add one to this
-    writingsAmount: {
-        type: Number, 
-        default: 0
-    },
-    //on submit needs to add one to this
-    reviewsAmount: {
-        type: Number, 
-        default: 0
-    },
-    
-
-    // //how do we link writings database collection to this?
-    // writingsLibrary: {
-    //     type: String, 
-    //     default: ""
-    // },
+    writings: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Writing", // References the Writing model
+        },
+      ],
+});
   
-})
+  
 
 module.exports = mongoose.model("User", userSchema);
