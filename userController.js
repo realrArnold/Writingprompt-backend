@@ -1,2 +1,2 @@
 const createError = require("http-errors");
-const Prompt = require("./schemas/Prompt");
+const User = require("./schemas/User");
