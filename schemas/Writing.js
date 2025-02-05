@@ -23,9 +23,10 @@ const writingSchema = new mongoose.Schema({
     //on submit needs to pass a datestamp
     date: {
       type: String,
-      //returns date stamp in local date format (eg. 7/15/2021 for US, 15/7/2021 for UK)
-      //Will this add date written to the writing entry in the database?
-      default: new Date().toLocaleDateString(),
+      // Returns the date in ISO standard format (YYYY-MM-DD). Also allows for easy sorting by date.
+      // ISO format avoids slashes in string, which can cause issues with database queries.
+      // split to take out time and time zone part of ISO string
+      default: new Date().toISOString().split('T')[0],
     },
     //Ranking based on number of likes here? Or should we have a separate ranking system?
     // ranking: {
