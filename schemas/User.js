@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String, 
@@ -12,16 +13,14 @@ const userSchema = new mongoose.Schema({
     token: {
         type: String
     },
-    //how do we link writings database collection to this?
-    writingsLibrary: {
-        type: String, 
-        default: ""
-    },
-    //days written in a row or number of writings completed/prompts answered
-    // activity: {
-    //     type: Number, 
-    //     default: 0
-    // },
-})
+    writings: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Writing", // References the Writing model
+        },
+      ],
+});
+  
+  
 
 module.exports = mongoose.model("User", userSchema);
