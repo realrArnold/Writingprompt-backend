@@ -18,7 +18,7 @@ app.use(cors());
 
 //this gets the token so you have ID for the bouncer to check...
 //where does route link to?
-app.post("/events/auth", async (req, res) => {
+app.post("/auth", async (req, res) => {
   console.log(req.body.username);
   console.log("arrived");
   const user = await User.findOne({ username: req.body.username });
