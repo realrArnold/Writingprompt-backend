@@ -69,7 +69,7 @@ exports.addWriting = async (req, res, next) => {
   try {
     // Get the userId from the authenticated user's context (e.g., req.user._id)
     // const userId = req.user._id;
-    const { title, words, date, genre, review, prompt } = req.body;
+    const { title, words, date, genre, review, text, username } = req.body;
     //find the user by the id passed in the request
     // const user = await User.findById(userId);
     // if (!user) {
@@ -82,8 +82,9 @@ exports.addWriting = async (req, res, next) => {
       date,
       genre,
       review,
-      prompt,
-      // writtenBy: userId, //associate the writing with the user
+      //might need to change the 'words' in WPrompt to 'text' or something else
+      // writingPrompt: text, //associate the writing with the prompt
+      // writtenBy: username, //associate the writing with the user
     });
      // Add the writing's ID to the user's writings array
     //  user.writings.push(newWriting._id);

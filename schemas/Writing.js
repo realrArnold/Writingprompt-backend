@@ -11,8 +11,9 @@ const writingSchema = new mongoose.Schema({
       required: [true, "Please write your response to the prompt."],
     },
     //on submit needs to pass the prompt text
-    prompt: {
-      type: String,
+    writingPrompt: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "WPrompt", // References the WPrompt model
     },
     //on submit needs to pass the genre
     //drop down menu or check boxes for genre?
