@@ -115,7 +115,7 @@ exports.updateWriting = async (req, res, next) => {
     } else {
       return res.status(404).json({ message: "No writing with that id" });
     }
-    res.send(writing);
+   
   } catch (error) {
     next(createError(500, error.message));
   }
