@@ -39,7 +39,7 @@ const writingSchema = new mongoose.Schema({
     //on submit (for reader) needs to add text to this
     review: {
       type: String,
-      default: "No review yet.",
+      default: Array,
     },
     //on submit needs to add one to this
     upvotes: {
