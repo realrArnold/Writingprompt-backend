@@ -1,19 +1,19 @@
 // this file is for routes, end points
 const express = require("express")
 const router = express.Router(); 
-const prompts = require("./promptsController")
+const writingPrompts = require("./writingPromptsController")
 const writings= require("./writingsController")
 const users = require("./usersController")
 
 // //querying prompt database collection
-// router.get("/prompts", prompts.getAllPrompts);
-// router.get("/prompts/:id", prompts.getPromptById);
-// router.get("/prompts/byGenre/:genre", prompts.getPromptByGenre);
-// router.get("/prompts/byDateDisplayed/:date", prompts.getPromptByDateDisplayed);
-// router.post("/prompts/add", prompts.addPrompt);
-// router.put("/prompts/:id", prompts.updatePrompt);
-// router.delete("/prompts/:id", prompts.deletePrompt);
-// router.delete("/prompts", prompts.deleteAllPrompts);  
+router.get("/writingPrompts", writingPrompts.getAllWPrompts);
+router.get("/writingPrompts/:id", writingPrompts.getWPromptById);
+// router.get("/writingPrompts/byGenre/:genre", writingPrompts.getWPromptByGenre);
+router.get("/writingPrompts/byDateDisplayed/:date", writingPrompts.getWPromptByDateDisplayed);
+router.post("/writingPrompts/add", writingPrompts.addWPrompt);
+router.put("/writingPrompts/:id", writingPrompts.updateWPrompt);
+router.delete("/writingPrompts/:id", writingPrompts.deleteWPrompt);
+// router.delete("/writingPrompts", writingPrompts.deleteAllWPrompts);  
 
 //querying writing database collection
 router.get("/writings", writings.getAllWritings);
