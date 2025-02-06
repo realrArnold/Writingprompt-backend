@@ -27,7 +27,7 @@ const writingSchema = new mongoose.Schema({
       // ISO format avoids slashes in string, which can cause issues with database queries.
       default: () => new Date().toISOString().split('T')[0], // ISO format without time.
     },
-    user: {
+    writtenBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // References the User model
     },

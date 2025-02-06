@@ -6,7 +6,7 @@ exports.getAllWritings = async (req, res, next) => {
   try {
     //.find allows us to return all items in the collection
     //returns all items and puts them in an array
-    const writings = await Writing.find().populate("user", "username");
+    const writings = await Writing.find().populate("writtenBy", "username");
     //checks length of array to see if there are any writings. if not, returns a message.
     if (writings.length === 0) {
       return res.status(404).json({ message: "no writings yet" });
@@ -20,7 +20,7 @@ exports.getAllWritings = async (req, res, next) => {
 exports.getWritingById = async (req, res, next) => {
   try {
     //finds one document by its id and returns it (no array)
-    const writing = await Writing.findById(req.params.id).populate("user", "username");
+    const writing = await Writing.findById(req.params.id).populate("writtenBy", "username");
 
     if (!writing) {
       return res.status(404).json({ message: "no writing with that id" });
@@ -34,7 +34,7 @@ exports.getWritingById = async (req, res, next) => {
 exports.getWritingByGenre = async (req, res, next) => {
   try {
     //finds all documents with the given genre and returns them in an array
-    const writing = await Writing.find({ genre: req.params.genre }).populate("user", "username");//populate allows us to see the user's info (limited to username)
+    const writing = await Writing.find({ genre: req.params.genre }).populate("writtenBy", "username");//populate allows us to see the user's info (limited to username)
 
     // If no writings are found for the given genre
     if (writing.length === 0) {
@@ -52,7 +52,7 @@ exports.getWritingByGenre = async (req, res, next) => {
 exports.getWritingByDateWritten = async (req, res, next) => {
   try {
     //finds all documents with the given date and returns them in an array
-    const writing = await Writing.find({ date: req.params.date }).populate("user", "username");
+    const writing = await Writing.find({ date: req.params.date }).populate("writtenBy", "username");
 
     // Check if the result array is empty
     if (writing.length === 0) {
@@ -83,7 +83,7 @@ exports.addWriting = async (req, res, next) => {
       genre,
       review,
       prompt,
-      // user: userId, //associate the writing with the user
+      // writtenBy: userId, //associate the writing with the user
     });
      // Add the writing's ID to the user's writings array
     //  user.writings.push(newWriting._id);
