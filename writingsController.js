@@ -67,12 +67,12 @@ exports.getWritingByDateWritten = async (req, res, next) => {
 
 exports.addWriting = async (req, res, next) => {
   try {
-    const { title, words, date, genre, review, prompt, userID } = req.body;
+    const { title, words, date, genre, review, prompt, user_id } = req.body;
     //find the user by the id passed in the request
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    const user = await User.findById(user_id);
+    // if (!user) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
     //create a new writing with the data passed in the request
     const newWriting = await Writing.create({
       title,
@@ -81,11 +81,11 @@ exports.addWriting = async (req, res, next) => {
       genre,
       review,
       prompt,
-      user: userID, //associate the writing with the user
+      user: user_id, //associate the writing with the user
     });
      // Add the writing's ID to the user's writings array
-     user.writings.push(newWriting._id);
-     await user.save();
+    //  user.writings.push(newWriting._id);
+    //  await user.save();
     res.status(200).json({
       message: "Writing successfully added!",
       newWriting,

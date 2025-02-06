@@ -6,12 +6,14 @@ const Writing = require("./schemas/Writing");
 exports.createUser = async (req, res, next) => {
   try {
     //extract username and password from request body
-    const { username, password } = req.body;
+    const { username, password, token, writings } = req.body;
     
     // Create a user
     const user = new User({
       username,
       password,
+      token,
+      writings,
     });
     await user.save();
 

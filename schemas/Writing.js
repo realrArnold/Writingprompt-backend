@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const writingSchema = new mongoose.Schema({
     title: {
       type: String,
-      required: [false, "Would you like to enter a title for your writing?"],
+      required: false,
     },
     //on submit needs to pass the text from the writing text area
     words: {
@@ -18,15 +18,14 @@ const writingSchema = new mongoose.Schema({
     //drop down menu or check boxes for genre?
     genre: {
         type: String,
-        required: [false, "Would you like to pick a genre?"],
+        required: false,
       },
     //on submit needs to pass a datestamp
     date: {
       type: String,
       // Returns the date in ISO standard format (YYYY-MM-DD). Also allows for easy sorting by date.
       // ISO format avoids slashes in string, which can cause issues with database queries.
-      // split to take out time and time zone part of ISO string
-      default: new Date().toISOString().split('T')[0],
+      default: () => new Date().toISOString().split('T')[0], // ISO format without time.
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
