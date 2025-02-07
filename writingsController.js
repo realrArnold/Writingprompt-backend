@@ -86,7 +86,7 @@ exports.addWriting = async (req, res, next) => {
       writtenBy: userId
       //might need to change the 'words' in WPrompt to 'text' or something else
       // writingPrompt: text, //associate the writing with the prompt
-      // writtenBy: username, //associate the writing with the user
+      
     });
 
     const DBUser = await User.findOne({_id: userId});
