@@ -7,6 +7,7 @@ exports.createUser = async (req, res, next) => {
   try {
     //extract username and password from request body
     const { username, password } = req.body;
+    console.log(username, password);
     
     // Create a user
     const user = new User({
