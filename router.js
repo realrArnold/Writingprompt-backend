@@ -4,6 +4,7 @@ const router = express.Router();
 const writingPrompts = require("./writingPromptsController")
 const writings= require("./writingsController")
 const users = require("./usersController")
+const authenticateUser = require("./middleware")
 
 // //querying prompt database collection
 router.get("/writingPrompts", writingPrompts.getAllWPrompts);
@@ -16,11 +17,11 @@ router.delete("/writingPrompts/:id", writingPrompts.deleteWPrompt);
 // router.delete("/writingPrompts", writingPrompts.deleteAllWPrompts);  
 
 //querying writing database collection
-router.get("/writings", writings.getAllWritings);
+router.get("/writings", authenticateUser, writings.getAllWritings);
 router.get("/writings/:id", writings.getWritingById);
 router.get("/writings/byGenre/:genre", writings.getWritingByGenre);
 router.get("/writings/byDateWritten/:date", writings.getWritingByDateWritten);
-router.post("/writings/add", writings.addWriting);
+router.post("/writings/add", authenticateUser, writings.addWriting);
 router.put("/writings/:id", writings.updateWriting);
 router.delete("/writings/:id", writings.deleteWriting);
 router.delete("/writings", writings.deleteAllWritings);  

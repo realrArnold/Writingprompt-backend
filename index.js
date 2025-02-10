@@ -7,13 +7,17 @@ const { v4: uuidv4 } = require("uuid");
 const connectDB = require("./config/database");
 const User = require("./schemas/User");
 const cors = require("cors");
-
+const cookieParser = require("cookie-parser")
 dotenv.config();
+const jwt = require("jsonwebtoken")
 
 connectDB();
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser())
+app.use(cors(
+  { origin: "http://localhost:3000", credentials: true }
+));
 
 //this gets the token so you have ID for the bouncer to check...
 //where does route link to?
@@ -29,26 +33,28 @@ app.post("/auth", async (req, res) => {
   if (req.body.password !== user.password) {
     return res.sendStatus(403);
   }
-  //uuid is a library that generates random strings
-  user.token = uuidv4();
-  await user.save();
-  res.send({ token: user.token });
+
+
+
+  const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
+    expiresIn: "12h",
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: false,  // Must be false for HTTP
+    sameSite: 'lax',  // Use 'lax' for local HTTP development
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/',
+});
+  console.log(res.getHeaders())
+
+  res.json({message: "login ok"})
 });
 
 // Authorization middleware - this is the 'bouncer' checking your ID before entry!
 // HAS TO BE BEFORE ROUTER STUFF
-app.use(async (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  console.log(authHeader);
-  const user = await User.findOne({ token: authHeader });
-  console.log(user);
-  if (user) {
-    req.user = user;
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-});
+
 app.use(router);
 
 app.listen(port, () => {
