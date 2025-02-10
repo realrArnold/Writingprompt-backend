@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const writingSchema = new mongoose.Schema({
     title: {
       type: String,
-      required: [false, "Would you like to enter a title for your writing?"],
+      required: false,
     },
     //on submit needs to pass the text from the writing text area
     words: {
@@ -11,24 +11,24 @@ const writingSchema = new mongoose.Schema({
       required: [true, "Please write your response to the prompt."],
     },
     //on submit needs to pass the prompt text
-    prompt: {
-      type: String,
+    writingPrompt: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "WPrompt", // References the WPrompt model
     },
     //on submit needs to pass the genre
     //drop down menu or check boxes for genre?
     genre: {
         type: String,
-        required: [false, "Would you like to pick a genre?"],
+        required: false,
       },
     //on submit needs to pass a datestamp
     date: {
       type: String,
       // Returns the date in ISO standard format (YYYY-MM-DD). Also allows for easy sorting by date.
       // ISO format avoids slashes in string, which can cause issues with database queries.
-      // split to take out time and time zone part of ISO string
-      default: new Date().toISOString().split('T')[0],
+      default: () => new Date().toISOString().split('T')[0], // ISO format without time.
     },
-    user: {
+    writtenBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // References the User model
     },
@@ -40,7 +40,7 @@ const writingSchema = new mongoose.Schema({
     //on submit (for reader) needs to add text to this
     review: {
       type: String,
-      default: "No review yet.",
+      default: Array,
     },
     //on submit needs to add one to this
     upvotes: {

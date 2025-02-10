@@ -13,7 +13,6 @@ dotenv.config();
 connectDB();
 
 app.use(express.json());
-app.use(router);
 app.use(cors());
 
 //this gets the token so you have ID for the bouncer to check...
@@ -44,11 +43,13 @@ app.use(async (req, res, next) => {
   const user = await User.findOne({ token: authHeader });
   console.log(user);
   if (user) {
+    req.user = user;
     next();
   } else {
     res.sendStatus(403);
   }
 });
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
