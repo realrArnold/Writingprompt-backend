@@ -96,7 +96,7 @@ exports.updateWPrompt = async (req, res, next) => {
     next(createError(500, error.message));
   }
 };
-
+// make sure the corrct person is deleting the entry, not just anyone. 
 exports.deleteWPrompt = async (req, res, next) => {
   try {
     const writingPrompt = await WPrompt.findByIdAndDelete(req.params.id);
