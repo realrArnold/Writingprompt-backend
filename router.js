@@ -8,6 +8,7 @@ const authenticateUser = require("./middleware")
 
 // //querying prompt database collection
 router.get("/writingPrompts", writingPrompts.getAllWPrompts);
+router.get("/writingPrompts/random", writingPrompts.getRandomWPrompt)
 router.get("/writingPrompts/:id", writingPrompts.getWPromptById);
 // router.get("/writingPrompts/byGenre/:genre", writingPrompts.getWPromptByGenre);
 router.get("/writingPrompts/byDateDisplayed/:date", writingPrompts.getWPromptByDateDisplayed);
