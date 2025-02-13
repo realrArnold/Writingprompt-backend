@@ -1,33 +1,31 @@
 const mongoose = require("mongoose");
 
-const writingSchema = new mongoose.Schema({
+const writingSchema = new mongoose.Schema(
+  {
     title: {
       type: String,
       required: false,
     },
-    //on submit needs to pass the text from the writing text area
     words: {
       type: String,
       required: [true, "Please write your response to the prompt."],
     },
     //on submit needs to pass the prompt text
     writingPrompt: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "WPrompt", // References the WPrompt model
+      type: String, // Changed from ObjectId to String since we're storing the prompt text
+      required: true,
     },
+    // writingPrompt: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "WPrompt", // References the WPrompt model
+    // },
     //on submit needs to pass the genre
     //drop down menu or check boxes for genre?
     genre: {
-        type: String,
-        required: false,
-      },
-    //on submit needs to pass a datestamp
-    date: {
       type: String,
-      // Returns the date in ISO standard format (YYYY-MM-DD). Also allows for easy sorting by date.
-      // ISO format avoids slashes in string, which can cause issues with database queries.
-      default: () => new Date().toISOString().split('T')[0], // ISO format without time.
+      required: false,
     },
+
     writtenBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // References the User model
@@ -37,16 +35,23 @@ const writingSchema = new mongoose.Schema({
     //     type: number,
     //     default: 0,
     //   },
-    //on submit (for reader) needs to add text to this
+
+    //on submit in UI (for reader) needs to add text to this
     review: {
-      type: String,
-      default: Array,
+      type: [String], // Changed to array of strings if you need multiple reviews
+      default: [],
     },
+
     //on submit needs to add one to this
-    upvotes: {
-      type: Number,
-      default: 0,
-    },
-  });
-  
-  module.exports = mongoose.model("Writing", writingSchema);
+    // upvotes: {
+    //   type: Number,
+    //   default: 0,
+    //   required: false,
+    // },
+  },
+  {
+    timestamps: true //creates automatic timestamps 
+  }
+);
+
+module.exports = mongoose.model("Writing", writingSchema);
