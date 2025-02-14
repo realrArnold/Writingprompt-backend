@@ -1,6 +1,7 @@
 const createError = require("http-errors");
 const Writing = require("./schemas/Writing");
 const WPrompt = require("./schemas/WPrompt");
+const cron = require("node-cron"); // Import node-cron
 
 exports.getAllWPrompts = async (req, res, next) => {
   try {
@@ -54,6 +55,7 @@ exports.getWPromptByDateDisplayed = async (req, res, next) => {
     next(createError(500, error.message));
   }
 };
+
 
 exports.getRandomWPrompt = async (req, res, next) => {
   try {
@@ -135,3 +137,32 @@ exports.deleteWPrompt = async (req, res, next) => {
     next(createError(500, error.message));
   }
 };
+
+// // Schedule a cron job to fetch a random writing prompt every day at 6:30 AM
+// cron.schedule("30 6 * * *", async () => {
+// //   // Schedule a cron job to fetch a random writing prompt every minute
+// // cron.schedule("* * * * *", async () => {
+//   console.log("Running cron job to fetch and log random writing prompt...");
+
+//   try {
+//     // Fetch a random writing prompt using the existing logic
+//     const count = await WPrompt.countDocuments();
+
+//     if (count === 0) {
+//       console.log("No writing prompts found. Skipping task.");
+//       return;
+//     }
+
+//     const randomIndex = Math.floor(Math.random() * count);
+//     const randomPrompt = await WPrompt.findOne().skip(randomIndex);
+
+//     // Example Action: Log or save the prompt
+//     console.log("Random Writing Prompt:", randomPrompt);
+
+//     // Optionally, save the random prompt to another collection or update it
+//     // await SomeOtherModel.create(randomPrompt);
+
+//   } catch (error) {
+//     console.error("Error during cron job execution:", error);
+//   }
+// });

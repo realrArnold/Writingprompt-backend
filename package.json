@@ -16,7 +16,9 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.6",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.1.9",
+    "save": "^2.9.0",
     "uuid": "^11.0.5"
   }
 }
