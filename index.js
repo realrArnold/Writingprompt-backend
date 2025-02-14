@@ -123,20 +123,20 @@ app.post("/auth", async (req, res) => {
 
 
 
-  const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
-    expiresIn: "1 week",
-  });
+//   const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
+//     expiresIn: "1 week",
+//   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,  // Must be false for HTTP
-    sameSite: 'lax',  // Use 'lax' for local HTTP development
-    maxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
-    path: '/',
-});
+//   res.cookie("token", token, {
+//     httpOnly: true,
+//     secure: false,  // Must be false for HTTP
+//     sameSite: 'lax',  // Use 'lax' for local HTTP development
+//     maxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
+//     path: '/',
+// });
   console.log(res.getHeaders())
 
-  res.json({message: "login ok"})
+  // res.json({message: "login ok"})
 
 });
 

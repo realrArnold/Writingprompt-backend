@@ -3,6 +3,7 @@ const Writing = require("./schemas/Writing");
 const User = require("./schemas/User");
 
 exports.getAllWritings = async (req, res, next) => {
+  console.log ("hello world")
   try {
     //.find allows us to return all items in the collection
     //returns all items and puts them in an array
