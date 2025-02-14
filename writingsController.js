@@ -65,47 +65,91 @@ exports.getWritingByDateWritten = async (req, res, next) => {
   }
 };
 
+
+
 exports.addWriting = async (req, res, next) => {
   try {
-    // Get the userId from the authenticated user's context (e.g., req.user._id)
-    console.log(req.user);
-    const userId = req.user._id;
-    const { title, words, date, genre, review, text, username } = req.body;
-    // find the user by the id passed in the request
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    console.log("Received data in addWriting:", req.body);
+    console.log("User from request:", req.user);
+
+    const userId = req.user.id;
+    const { words, writingPrompt } = req.body;
+
+    if (!words || !writingPrompt) {
+      return res.status(400).json({ 
+        message: "Missing required fields" 
+      });
     }
-    // create a new writing with the data passed in the request
+
+    // Create the new writing entry
     const newWriting = await Writing.create({
-      title,
       words,
-      date,
-      genre,
-      review,
-      writtenBy: userId
-      //might need to change the 'words' in WPrompt to 'text' or something else
-      // writingPrompt: text, //associate the writing with the prompt
-      
+      writingPrompt,  // Now this will work as it expects a string
+      writtenBy: userId,
+      review: []  // Initialize empty array for reviews
     });
 
-    const DBUser = await User.findOne({_id: userId});
+    // Find and update the user
+    const user = await User.findById(userId);
+    if (user) {
+      user.writings = user.writings || [];
+      user.writings.push(newWriting._id);
+      await user.save();
+    }
+
+    res.status(201).json({
+      message: "Writing successfully added!",
+      writing: newWriting
+    });
+
+  } catch (error) {
+    console.error("Error in addWriting:", error);
+    next(createError(500, error.message));
+  }
+};
+
+// exports.addWriting = async (req, res, next) => {
+//   try {
+//     // Get the userId from the authenticated user's context (e.g., req.user._id)
+//     console.log(req.user);
+//     const userId = req.user._id;
+//     // const { title, words, date, genre, review, text, username } = req.body;
+//     const { words, writingPrompt } = req.body;
+//     // find the user by the id passed in the request
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     // create a new writing with the data passed in the request
+//     const newWriting = await Writing.create({
+//       // title,
+//       words,
+//       writingPrompt,
+//       // date,
+//       // genre,
+//       // review,
+//       writtenBy: userId
+      
+      
+//     });
+
+//     const DBUser = await User.findOne({_id: userId});
 
 
     
 
-     // Add the writing's ID to the user's writings array
-    DBUser.writings.push(newWriting._id);
-     await DBUser.save()
-    //  await user.save();
-    res.status(200).json({
-      message: "Writing successfully added!",
-      newWriting,
-    });
-  } catch (error) {
-    next(createError(500, error.message));
-  }
-};
+//      // Add the writing's ID to the user's writings array
+//     DBUser.writings.push(newWriting._id);
+//      await DBUser.save()
+//     //  await user.save();
+//     res.status(200).json({
+//       message: "Writing successfully added!",
+//       newWriting,
+//     });
+//   } catch (error) {
+//     next(createError(500, error.message));
+//   }
+// };
 
 exports.updateWriting = async (req, res, next) => {
   try {
