@@ -31,7 +31,7 @@ router.delete("/writings", writings.deleteAllWritings);
 // router.get("/users", users.getAllUsers);
 // router.get("/users/:id", users.getUserById);
 // router.get("/users/byUsername/:username", users.getUserByUsername);
-// router.get("/users/writings", users.getAllWritingsByUser);
+router.get("/users/:user_id/writings", authenticateUser, users.getAllWritingsByUser);
 // router.get("/users/writings/byGenre/:genre", users.getWritingsByGenre);
 // router.get("/users/writings/byPrompt/:prompt_id", users.getWritingsByPrompt);
 // router.get("/users/reviews", users.getAllReviewsByUser);

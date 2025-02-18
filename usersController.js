@@ -22,3 +22,19 @@ exports.createUser = async (req, res, next) => {
     return res.status(500).json ({ message: "Error creating user:", error});
   }
 };
+
+
+// gets all writings by a user
+exports.getAllWritingsByUser = async (req, res, next) => {
+  try {
+    //finds all documents by its id and returns it (no array)
+    const writings = await Writing.find({ writtenBy: req.params.user_id });
+
+    if (writings.length === 0) {
+      return res.status(404).json({ message: "Nothing found by that author" });
+    }
+    res.send(writings);
+  } catch (error) {
+    next(createError(500, error.message));
+  }
+};
