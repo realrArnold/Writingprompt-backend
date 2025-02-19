@@ -92,15 +92,15 @@ app.post("/auth", async (req, res) => {
       path: '/',
     });
 
-    // // Send response with the token and user info (e.g., user ID)
-    // res.json({
-    //   message: "login ok",
-    //   token,
-    //   user: {
-    //     id: user._id,      // Include user ID
-    //     username: user.username, // Optionally include username
-    //   },
-    // });
+    // Send response with the token and user info (e.g., user ID)
+    res.json({
+      message: "login ok",
+      token,
+      user: {
+        id: user._id,      // Include user ID
+        username: user.username, // Optionally include username
+      },
+    });
     
   } catch (error) {
     console.error("Auth error:", error);
