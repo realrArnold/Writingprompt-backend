@@ -4,8 +4,8 @@ const authenticateToken = (req, res, next) => {
   const token = req.cookies?.token; // Get token from cookies
   console.log(req.cookies)
 
-  console.log("inside of the middleware")
-  console.log("the token is", token)
+  // console.log("inside of the middleware")
+  // console.log("the token is", token)
 
   if (!token) {
     return res.status(403).json({ message: "Unauthorized: No token provided" });

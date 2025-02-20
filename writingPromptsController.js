@@ -135,3 +135,25 @@ exports.deleteWPrompt = async (req, res, next) => {
     next(createError(500, error.message));
   }
 };
+
+exports.getDailyWPrompt = async (req, res, next) => {
+  try {
+    // Count the total number of documents
+    const count = await WPrompt.countDocuments();
+
+    if (count === 0) {
+      return res.status(404).json({ message: "No writing prompts found" });
+    }
+
+    // Generate a random index
+    const randomIndex = Math.floor(Math.random() * count);
+
+    // Use skip to fetch the document at the random index
+    const writingPrompt = await WPrompt.findOne().skip(randomIndex);
+
+    res.status(200).send(writingPrompt);
+  } catch (error) {
+    next(createError(500, error.message));
+  }
+};
+

@@ -9,6 +9,7 @@ const User = require("./schemas/User");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const CRON_SECRET = process.env.CRON_SECRET 
 
 // Load environment variables
 dotenv.config();
@@ -24,44 +25,10 @@ app.use(cors({
   credentials: true
 }));
 
-// // Authentication endpoint
-// app.post("/auth", async (req, res) => {
-//   try {
-//     console.log("Auth request for username:", req.body.username);
-    
-//     const user = await User.findOne({ username: req.body.username });
-    
-//     if (!user) {
-//       return res.status(401).json({ message: "User not found" });
-//     }
-    
-//     if (req.body.password !== user.password) {
-//       return res.status(403).json({ message: "Invalid password" });
-//     }
-    
-//     const token = jwt.sign(
-//       { id: user._id, username: user.username },
-//       process.env.JWT_SECRET,
-//       { expiresIn: "7 days" }
-//     );
-    
-//     res.cookie("token", token, {
-//       httpOnly: true,
-//       secure: false,  // Set to true in production with HTTPS
-//       sameSite: 'lax',
-//       maxAge: 24 * 60 * 60 * 1000 * 7,
-//       path: '/',
-//     });
-    
-//     res.json({ message: "login ok", token });  // Include token in response
-//   } catch (error) {
-//     console.error("Auth error:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
 
 app.post("/auth", async (req, res) => {
   try {
-    console.log("Auth request for username:", req.body.username);
+    // console.log("Auth request for username:", req.body.username);
 
     // Find user in the database
     const user = await User.findOne({ username: req.body.username });
@@ -107,8 +74,6 @@ app.post("/auth", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
-
 
 
 
