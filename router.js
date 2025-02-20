@@ -7,6 +7,19 @@ const users = require("./usersController");
 const authenticateUser = require("./middleware");
 const verifyCronSecret = require("./cronMiddleware");
 
+//cron-job endpoint to update writing prompts
+router.get(
+    "/writingPrompts/daily",
+    verifyCronSecret,
+    writingPrompts.getDailyWPrompt
+  );
+  
+  // New endpoint to fetch the current daily writing prompt
+  router.get(
+    "/writingPrompts/currentDaily",
+    writingPrompts.getCurrentDailyWPrompt
+  );
+
 // //querying prompt database collection
 router.get("/writingPrompts", writingPrompts.getAllWPrompts);
 router.get("/writingPrompts/random", writingPrompts.getRandomWPrompt);
@@ -21,18 +34,7 @@ router.put("/writingPrompts/:id", writingPrompts.updateWPrompt);
 router.delete("/writingPrompts/:id", writingPrompts.deleteWPrompt);
 // router.delete("/writingPrompts", writingPrompts.deleteAllWPrompts);
 
-//cron-job endpoint to update writing prompts
-router.get(
-  "/writingPrompts/daily",
-  verifyCronSecret,
-  writingPrompts.getDailyWPrompt
-);
 
-// New endpoint to fetch the current daily writing prompt
-router.get(
-  "/writingPrompts/currentDaily",
-  writingPrompts.getCurrentDailyWPrompt
-);
 
 //querying writing database collection
 router.get("/writings", authenticateUser, writings.getAllWritings);
