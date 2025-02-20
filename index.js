@@ -35,6 +35,10 @@ app.use(cors({
   credentials: true
 }));
 
+// Preflight request handling
+app.options('*', cors());
+
+// Auth endpoint
 app.post("/auth", async (req, res) => {
   try {
     // Find user in the database
