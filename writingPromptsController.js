@@ -117,7 +117,7 @@ exports.updateWPrompt = async (req, res, next) => {
     next(createError(500, error.message));
   }
 };
-// make sure the corrct person is deleting the entry, not just anyone. 
+// make sure the corrct person is deleting the entry, not just anyone.
 exports.deleteWPrompt = async (req, res, next) => {
   try {
     const writingPrompt = await WPrompt.findByIdAndDelete(req.params.id);
@@ -125,7 +125,7 @@ exports.deleteWPrompt = async (req, res, next) => {
     if (writingPrompt) {
       return res.status(200).json({
         message: "Deletion successful!",
-        //returns the deleted writing prompt 
+        //returns the deleted writing prompt
         deletedWritingPrompt: writingPrompt,
       });
     } else {
@@ -151,9 +151,27 @@ exports.getDailyWPrompt = async (req, res, next) => {
     // Use skip to fetch the document at the random index
     const writingPrompt = await WPrompt.findOne().skip(randomIndex);
 
+    // Set the selected prompt as the daily prompt
+    await WPrompt.updateMany({}, { $set: { isDailyPrompt: false } }); // Reset all prompts
+    writingPrompt.isDailyPrompt = true;
+    await writingPrompt.save();
+
     res.status(200).send(writingPrompt);
   } catch (error) {
     next(createError(500, error.message));
   }
 };
 
+exports.getCurrentDailyWPrompt = async (req, res, next) => {
+  try {
+    const writingPrompt = await WPrompt.findOne({ isDailyPrompt: true });
+
+    if (!writingPrompt) {
+      return res.status(404).json({ message: "No daily writing prompt found" });
+    }
+
+    res.status(200).send(writingPrompt);
+  } catch (error) {
+    next(createError(500, error.message));
+  }
+};
