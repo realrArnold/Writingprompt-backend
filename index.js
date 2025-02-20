@@ -19,8 +19,18 @@ connectDB();
 // Middleware setup - order is important!
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://writingprompt.vercel.app/" 
+];
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
@@ -84,13 +94,12 @@ app.post("/auth", async (req, res) => {
     );
 
     // Set the token as a cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,  // Set to true in production with HTTPS
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
-      path: '/',
-    });
+    res.cookie("token", 
+               token, { httpOnly: true, secure: process.env.NODE_ENV === "production", // Secure in production
+                       sameSite: 'none', // Required for cross-origin 
+                       cookiesmaxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
+                       path: '/', 
+                      });
 
     // Send response with the token and user info (e.g., user ID)
     res.json({
