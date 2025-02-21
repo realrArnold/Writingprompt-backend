@@ -20,7 +20,7 @@ const writingSchema = new mongoose.Schema(
     //   ref: "WPrompt", // References the WPrompt model
     // },
     //on submit needs to pass the genre
-    //drop down menu or check boxes for genre?
+    //drop down menu or check boxes for genre? F
     genre: {
       type: String,
       required: false,
@@ -50,7 +50,7 @@ const writingSchema = new mongoose.Schema(
     // },
   },
   {
-    timestamps: true //creates automatic timestamps 
+    timestamps: true, //creates automatic timestamps
   }
 );
 
