@@ -67,4 +67,25 @@ router.post("/users/create", users.createUser);
 //     res.send("Router is working!");
 //   });
 
+
+// Logout 
+
+// Import necessary functions/modules
+const { serialize } = require('cookie');  // Used for handling cookies
+
+// Logout route to clear the JWT token cookie
+router.post("/users/logout", (req, res) => {
+  // Clear the JWT token cookie by setting its maxAge to -1 (expire immediately)
+  res.setHeader('Set-Cookie', serialize('token', '', {
+    httpOnly: true,  // The cookie cannot be accessed via JavaScript
+    secure: process.env.NODE_ENV === 'production',  // Only use 'secure' in production (requires HTTPS)
+    path: '/',  // Accessible throughout the entire app
+    maxAge: -1  // Expire immediately (removes the cookie)
+  }));
+
+  return res.status(200).json({ message: "Logged out successfully" });
+});
+
+
+
 module.exports = router;
