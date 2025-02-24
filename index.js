@@ -65,21 +65,21 @@ app.post("/auth", async (req, res) => {
 
 
 // old code, use it for local testing
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: false,  // Set to true in production with HTTPS
-  sameSite: 'lax',
-  maxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
-  path: '/',
-});
+// res.cookie("token", token, {
+//   httpOnly: true,
+//   secure: false,  // Set to true in production with HTTPS
+//   sameSite: 'lax',
+//   maxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
+//   path: '/',
+// });
 
     // Set the token as a cookie. New code, use when deploying to production (live)
-    // res.cookie("token", 
-    //            token, { httpOnly: true, secure: process.env.NODE_ENV === "production", // Secure in production
-    //                    sameSite: 'none', // Required for cross-origin 
-    //                    cookiesmaxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
-    //                    path: '/', 
-    //                   });
+    res.cookie("token", 
+               token, { httpOnly: true, secure: process.env.NODE_ENV === "production", // Secure in production
+                       sameSite: 'none', // Required for cross-origin 
+                       cookiesmaxAge: 24 * 60 * 60 * 1000 * 7, // 7 days
+                       path: '/', 
+                      });
 
 
     // Send response with the token and user info (e.g., user ID)
