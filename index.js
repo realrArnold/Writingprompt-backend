@@ -24,7 +24,7 @@ const allowedOrigins = [
 
   "https://writingprompt.vercel.app",
   "https://writingapptestcron.vercel.app",
-  "https://writing-prompt-frontend.vercel.app/"
+  "https://writing-prompt-frontend.vercel.app"
 
 ];
 app.use(cors({
