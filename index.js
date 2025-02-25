@@ -23,7 +23,7 @@ const allowedOrigins = [
   "http://localhost:3000",
 
   "https://writingprompt.vercel.app",
-  "https://writingapptestcron.vercel.app"
+  "https://writingapptestcron.vercel.app",
   "https://writing-prompt-frontend.vercel.app/"
 
 ];
