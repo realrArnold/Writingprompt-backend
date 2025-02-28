@@ -65,7 +65,7 @@ app.post("/auth", async (req, res) => {
     );
 
 
-// old code, use it for local testing
+// // old code, use it for local testing
 // res.cookie("token", token, {
 //   httpOnly: true,
 //   secure: false,  // Set to true in production with HTTPS
