@@ -6,7 +6,12 @@ exports.getAllWritings = async (req, res, next) => {
   try {
     //.find allows us to return all items in the collection
     //returns all items and puts them in an array
-    const writings = await Writing.find().populate("writtenBy", "username");
+    const writings = await Writing.find().populate({
+      path: "writtenBy",
+      select: "username",
+      model: "User"
+    });
+    console.log(writings)
     //checks length of array to see if there are any writings. if not, returns a message.
     if (writings.length === 0) {
       return res.status(404).json({ message: "no writings yet" });
