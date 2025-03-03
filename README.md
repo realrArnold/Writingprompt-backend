@@ -10,6 +10,7 @@ API for Writing Prompts App - linked to a MongoDB database.
 ### API Endpoints
 
 **querying prompt database collection**
+
 router.get("/writingPrompts", writingPrompts.getAllWPrompts);
 router.get("/writingPrompts/random", writingPrompts.getRandomWPrompt);
 router.get("/writingPrompts/:id", writingPrompts.getWPromptById);
@@ -27,6 +28,7 @@ router.delete("/writingPrompts/:id", writingPrompts.deleteWPrompt);
   );
 
 **querying writing database collection**
+
 router.get("/writings", authenticateUser, writings.getAllWritings);
 router.get("/writings/:id", writings.getWritingById);
 router.get("/writings/byGenre/:genre", writings.getWritingByGenre);
@@ -42,6 +44,7 @@ router.get(
 );
 
 **User endpoints**
+
 router.post("/users/create", users.createUser);
 
 
