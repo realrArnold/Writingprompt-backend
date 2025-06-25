@@ -44,18 +44,25 @@ app.options('*', cors());
 // Auth endpoint
 app.post("/auth", async (req, res) => {
   try {
-    // Find user in the database
+    console.log("REQ BODY:", req.body);
+    console.log("USERNAME:", req.body.username);
+    console.log("PASSWORD (from req):", JSON.stringify(req.body.password));
+
     const user = await User.findOne({ username: req.body.username });
 
-    // If user is not found, send an unauthorized error
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    // Validate the password
+    console.log("PASSWORD (from DB):", JSON.stringify(user.password));
+    console.log("EQUAL?", req.body.password === user.password);
+
     if (req.body.password !== user.password) {
       return res.status(403).json({ message: "Invalid password" });
     }
+
+    // existing JWT/cookie logic below...
+
 
     // Generate JWT token
     const token = jwt.sign(
